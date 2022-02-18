@@ -1,0 +1,87 @@
+controller file-----
+
+
+ public function image(Request $request){
+
+
+        $this->validate($request,[
+            'image'=>'required',
+            'image.*'=>'image|mimes:jpg,jpeg,png',
+        ]);
+
+       $files=$request->file('image');
+
+       foreach($files as $file){
+                $name = uniqid().'.'. $file->getClientOriginalName();
+            
+                $file->move('images',$name);   
+                $input['image'] = $name;  
+
+            }   
+ return redirect()->back();
+
+ }
+
+
+
+
+
+view file_--------
+
+ <form method="post" action="{{route('image_upload')}}" enctype="multipart/form-data" >
+        @csrf
+        
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input multiple type="file" id="image" name="image[]" class="form-control">
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <img src="" alt="" id="show_image">
+  </body>
+</html>
+<script>
+
+   $('#image').change(function(){
+
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+    // The file's text will be printed here
+  $("#show_image").attr('src',e.target.result);
+           console.log(e.target.result)
+  };
+
+  reader.readAsDataURL(file);
+
+        });
+   
+ 
+</script>
+
+
+
+
+
+
+
+
+
+
+topic completed{
+multiple image file upload, image validation, image reader
+
+1. implode
+2. explode
+3. json encode
+4. json decode
+5. in-array
+6. array-push
+6. array-filter
+7. array-key exist
+8. move
+9. file-exist
+10. str-replace
+11. is-array.
